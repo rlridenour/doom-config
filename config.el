@@ -53,7 +53,7 @@
 ;; they are implemented.
 
 
-;;
+;;Add custom snippets.
 (after! yasnippet
   (setq yas-snippet-dirs
         '("~/.doom.d/snippets")))
