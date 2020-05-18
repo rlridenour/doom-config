@@ -48,3 +48,4 @@
 
 ;; Use org-plus-contrib
 (package! org-plus-contrib :recipe (:host github :repo "emacs-straight/org-mode"))
+(package! hc-zenburn-theme)

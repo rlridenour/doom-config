@@ -1,0 +1,53 @@
+# -*- mode: snippet -*-
+# contributor: <madsdk@gmail.com>
+# contributor : Song Qiang <tsiangsung@gmail.com>
+# key: larticle
+# group: skeleton
+# name: latex-article
+# --
+\documentclass[11pt]{article}
+
+%Uncomment if using XeTeX or LuaTeX.
+%\usepackage[libertine]{newtxmath} 
+%\usepackage[no-math]{fontspec}
+%\defaultfontfeatures{Ligatures={TeX}}
+%\setmainfont[Mapping=tex-text]{Linux Libertine O}
+%\setsansfont[Mapping=tex-text]{Linux Biolinum O} 
+%\setmonofont[Scale=0.84]{Inconsolata}
+
+\usepackage{graphicx,epstopdf,amsmath,amssymb,bm,url}
+\usepackage{microtype,todonotes}
+% \usepackage[american]{babel}
+\usepackage[letterpaper,centering]{geometry}
+\usepackage[sc]{titlesec}
+\usepackage[parfill]{parskip} % Line between paragraphs
+% \usepackage{tikz}
+% \usetikzlibrary{shapes,backgrounds}
+\usepackage[authordate,url=false,isbn=false,backend=biber]{biblatex-chicago} %Change authordate to notes if desired.
+\addbibresource{/Users/rlridenour/Dropbox/bibtex/randybib.bib}
+\clubpenalty = 10000 % Reduce orphans and widows
+\widowpenalty = 10000
+
+% Font
+%Comment out if using XeTeX or LuaTeX.
+% %\usepackage{newtxtext,newtxmath}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage[scaled=0.96]{zi4}
+\usepackage[T1]{fontenc} 
+
+\usepackage{hyperref}
+
+\title{${1:Title}}
+\author{Randy Ridenour}
+%\date{}  % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+$0
+
+% \printbibliography
+
+
+\end{document}

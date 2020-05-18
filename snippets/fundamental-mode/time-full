@@ -1,0 +1,4 @@
+#name : (current time)
+# key: xftime
+# --
+`(current-time-string)`
