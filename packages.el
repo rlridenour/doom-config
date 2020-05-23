@@ -46,6 +46,7 @@
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
 
-;; Use org-plus-contrib
-(package! org-plus-contrib :recipe (:host github :repo "emacs-straight/org-mode"))
 (package! hc-zenburn-theme)
+(package! hungry-delete)
+(package! wc-mode)
+(package! org-ref)
