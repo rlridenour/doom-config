@@ -1,210 +1,231 @@
 #+TITLE: Doom Emacs Configuration
 #+AUTHOR: Randy Ridenour
 
-* Basic Configuration
 
-** Personal information
+* Personal information
 
 #+begin_src emacs-lisp :tangle yes
+
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
 (setq user-full-name "Randy Ridenour"
       user-mail-address "rlridenour@gmail.com")
+
 #+end_src
-
-
-
-** Modify the defaults
-
-#+begin_src emacs-lisp :tangle yes
-(setq-default
- delete-by-moving-to-trash t                      ; Delete files to trash
- tab-width 4                                      ; Set width for tabs
- uniquify-buffer-name-style 'forward              ; Uniquify buffer names
- window-combination-resize t                      ; take new window space from all other windows (not just current)
- x-stretch-cursor t)                              ; Stretch cursor to the glyph width
-
-(setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
-      evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
-      auto-save-default t                         ; Nobody likes to loose work, I certainly don't
-      inhibit-compacting-font-caches t)           ; When there are lots of glyphs, keep them in memory
-
-(delete-selection-mode 1)                         ; Replace selection when inserting text
-(display-time-mode 1)                             ; Enable time in the mode-line
-(display-battery-mode 1)                          ; On laptops it's nice to know how much power you have
-#+END_SRC
-
-** Windows
-This asks which buffer to go to when splitting a window. First, go to the window.
-#+begin_src emacs-lisp :tangle yes
-(setq evil-vsplit-window-right t
-      evil-split-window-below t)
-#+END_SRC
-
-Then, pull up ~ivy~
-
-#+begin_src emacs-lisp :tangle yes
-(defadvice! prompt-for-buffer (&rest _)
-  :after '(evil-window-split evil-window-vsplit)
-  (+ivy/switch-buffer))
-#+END_SRC
-
-Preview the buffer.
-
-#+begin_src emacs-lisp :tangle yes
-(setq +ivy-buffer-preview t)
-#+END_SRC
-
-** Buffer defaults
-
-Set new buffers to org-mode
-
-#+begin_src emacs-lisp :tangle yes
-(setq-default major-mode 'org-mode)
-#+END_SRC
 
 * Appearance
 
+
 ** Fonts
 
-(setq doom-font (font-spec :family "JetBrains Mono" :size 24)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 36)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 24)
-      doom-serif-font (font-spec :family "IBM Plex Mono" :weight 'light))
+#+begin_src emacs-lisp :tangle yes
+
+
+;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
+;; are the three important ones:
+;;
+;; + `doom-font'
+;; + `doom-variable-pitch-font'
+;; + `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;;   presentations or streaming.
+;;
+;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
+;; font string. You generally only need these two:
+(setq doom-font (font-spec :family "Droid Sans Mono Slashed" :size 14))
+
+#+end_src
 
 
 ** Theme
 
-The Doom themes are nice, but I'm a fan of Zenburn.
-
 #+begin_src emacs-lisp :tangle yes
+
+
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. This is the default:
+;;(setq doom-theme 'doom-one)
 (setq doom-theme 'hc-zenburn)
+
 #+end_src
 
-Change default buffer names
+** Set org directory
 
 #+begin_src emacs-lisp :tangle yes
-(setq doom-fallback-buffer-name "► Doom"
-      +doom-dashboard-name "► Doom")
+
+
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/Dropbox/org/")
+
 #+end_src
-
-There's a bug with the modeline in insert mode for org documents ([[https://github.com/seagle0128/doom-modeline/issues/300][issue]]), so
-#+begin_src emacs-lisp :tangle yes
-(custom-set-faces! '(doom-modeline-evil-insert-state :weight bold :foreground "#339CDB"))
-#+END_SRC
 
 ** Line numbers
 
 #+begin_src emacs-lisp :tangle yes
+
+
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
+
 #+end_src
 
-* Spelling, snippets, etc.
+** Miscellaneous defaults
+
+#+begin_src emacs-lisp :tangle yes
+
+
+(setq-default
+ delete-by-moving-to-trash t                      ; Delete files to trash
+ tab-width 4                                      ; Set width for tabs
+ uniquify-buffer-name-style 'forward)              ; Uniquify buffer names
+
+(setq evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
+      auto-save-default t)                         ; Nobody likes to loose work, I certainly don't
+
+(delete-selection-mode 1)                         ; Replace selection when inserting text
+(display-time-mode 1)                             ; Enable time in the mode-line
+(display-battery-mode 1)                          ; On laptops it's nice to know how much power you have
+
+#+end_src
+
+** Windows
+
+#+begin_src emacs-lisp :tangle yes
+
+
+;; This asks which buffer to go to when splitting a window. First, go to the window.
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+;; Then, pull up ivy
+
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (+ivy/switch-buffer))
+
+;; Preview the buffer.
+
+(setq +ivy-buffer-preview t)
+
+
+#+end_src
+
+* Basic editing
+
+** New Buffers
+
+
+
+Set new buffers to org-mode
+
+#+begin_src emacs-lisp :tangle yes
+
+
+;; (setq-default major-mode 'org-mode)
+
+#+end_src
+
+;; Here are some additional functions/macros that could help you configure Doom:
+;;
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', relative to
+;;   this file. Emacs searches the `load-path' when you load packages with
+;;   `require' or `use-package'.
+;; - `map!' for binding new keys
+;;
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c g k').
+;; This will open documentation for it, including demos of how they are used.
+;;
+;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
+;; they are implemented.
 
 ** Input method
 
-Set the default input method to TeX.
+#+begin_src emacs-lisp :tangle yes
+
+
+(setq default-input-method 'TeX)
+(add-hook 'text-mode-hook 'toggle-input-method)
+(add-hook 'markdown-mode-hook 'toggle-input-method)
+(add-hook 'org-mode-hook 'toggle-input-method)
+
+#+end_src
+
+** Add custom snippets
 
 #+begin_src emacs-lisp :tangle yes
-(setq default-input-method 'TeX)
+
+
+(after! yasnippet
+  (setq yas-snippet-dirs (append yas-snippet-dirs
+        '("~/.doom.d/snippets"))))
+
+
 #+end_src
 
 ** Spelling
 
-Use aspell.
 #+begin_src emacs-lisp :tangle yes
+
 (setq ispell-program-name "/usr/local/bin/aspell")
-	;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
-	(setq ispell-extra-args '("--sug-mode=ultra"))
-#+end_src
-
-Store the personal dictionary in Dropbox for sharing between different machines. Save changes to the personal dictionary without asking.
-
-#+begin_src emacs-lisp :tangle yes
 (setq ispell-personal-dictionary "/Users/rlridenour/Dropbox/emacs/spelling/.aspell.en.pws")
 (setq ispell-silently-savep t)
+
 #+end_src
 
-Keep flyspell from slowing down the machine.
+** Bookmarks
 
 #+begin_src emacs-lisp :tangle yes
-(flyspell-lazy-mode 1)
-#+end_src
 
 
-** Abbreviations
-
-Use common abbreviation list.
-
-#+begin_src emacs-lisp :tangle yes
 (load "~/Dropbox/emacs/my-emacs-abbrev")
+
 #+end_src
 
-** Company mode
+* Languages
+
+** Org Mode
 
 #+begin_src emacs-lisp :tangle yes
-(after! company
-  (setq company-idle-delay 1
-        company-minimum-prefix-length 2)
-  (setq company-show-numbers t)
-(add-hook 'evil-normal-state-entry-hook #'company-abort))
-#+end_src
-
-* Org mode
 
 
-Enable ignoring a headline during export.
-
-#+begin_src emacs-lisp :tangle yes
+;; Enable ignoring a headline during export.
 (require 'ox-extra)
 (ox-extras-activate '(ignore-headlines))
-#+end_src
 
-Enable word count.
 
-#+begin_src emacs-lisp :tangle yes
 (add-hook 'org-mode-hook 'wc-mode)
-#+end_src
 
-Have spelling ignore TeX commands
 
-#+begin_src emacs-lisp :tangle yes
  (defun flyspell-ignore-tex ()
 	(interactive)
 	(set (make-variable-buffer-local 'ispell-parser) 'tex))
 (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))
 (add-hook 'org-mode-hook 'flyspell-ignore-tex)
-#+end_src
 
-Use C-c c to capture to tasks and journal.
 
-#+begin_src emacs-lisp :tangle yes
+;; Use C-c c for Org Capture to ~/Dropbox/notes.org
+
+;;(setq org-default-notes-file (concat org-directory "/notes.org"))
 (setq org-capture-templates
 	'(("t" "Todo" entry (file+headline "~/Dropbox/org/tasks.org" "Tasks")
 	   "* TODO %?\n  %i\n  %a")
 	  ("j" "Journal" entry (file+datetree "~/Dropbox/org/journal.org")
 	   "* %?\nEntered on %U\n  %i\n  %a")))
 (define-key global-map "\C-cc" 'org-capture)
-#+end_src
 
-Use org-ref for citations.
-
-#+begin_src emacs-lisp :tangle yes
-
-	(setq org-ref-completion-library 'org-ref-ivy-cite
-		  org-ref-default-bibliography '("~/Dropbox/bibtex/randybib.bib"))
-#+end_src
-
-#+begin_src emacs-lisp :tangle no
 (use-package org-ref
 	:after org
-	:config
+	:init
 	(setq org-ref-completion-library 'org-ref-ivy-cite
-		  org-ref-default-bibliography '("~/Dropbox/bibtex/randybib.bib"))
-	)
-#+end_src
+		  org-ref-default-bibliography '("~/Dropbox/bibtex/randybib.bib")))
 
-Deft for quick notes.
-
-#+begin_src emacs-lisp :tangle yes
 (use-package deft
 :bind ("<f9>" . deft)
 :commands (deft)
@@ -218,31 +239,31 @@ Deft for quick notes.
                   (nospace . "-")
                   (case-fn . downcase)))
           (setq deft-text-mode 'org-mode))
+
 #+end_src
 
-* LaTeX
-
-
-Set reftex bibliography
+** LaTeX
 
 #+begin_src emacs-lisp :tangle yes
+
+
 (setq reftex-default-bibliography "~/Dropbox/bibtex/randybib.bib")
+(setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf -quiet -interaction=nonstopmode %f"))
 (setq ivy-re-builders-alist
       '((ivy-bibtex . ivy--regex-ignore-order)
         (t . ivy--regex-plus)))
-#+end_src
 
-Use latexmk for org export to PDF
-
-#+begin_src emacs-lisp :tangle yes
-(setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf -quiet -interaction=nonstopmode %f"))
-#+end_src
+;; (setq bibtex-completion-bibliography
+;;       '("~/Dropbox/bibtex/randybib.bib"))
 
 
-Allow Auctex to use Biber instead of Bibtex.
 
-#+begin_src emacs-lisp :tangle yes
-(defun TeX-run-Biber (name command file)
+;; Configure AucTeX
+;; Configure Biber
+;; Allow AucTeX to use biber as well as/instead of bibtex.
+
+  ;; Biber under AUCTeX
+  (defun TeX-run-Biber (name command file)
 	"Create a process for NAME using COMMAND to format FILE with Biber."
 	(let ((process (TeX-run-command name command file)))
 	  (setq TeX-sentinel-function 'TeX-Biber-sentinel)
@@ -273,11 +294,16 @@ Allow Auctex to use Biber instead of Bibtex.
   (eval-after-load "tex"
 	'(add-to-list 'TeX-command-list '("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber"))
 	)
-#+end_src
 
-Bibtex completion formats.
+  (defun tex-clean ()
+	(interactive)
+	(shell-command "latexmk -c"))
 
-#+begin_src emacs-lisp :tangle yes
+
+  (defun tex-clean-all ()
+	(interactive)
+	(shell-command "latexmk -C"))
+
   (defun bibtex-completion-format-citation-orgref (keys)
 	"Formatter for org-ref citations."
 	(let* ((prenote  (if bibtex-completion-cite-prompt-for-optional-arguments (read-from-minibuffer "Prenote: ") ""))
@@ -286,11 +312,6 @@ Bibtex completion formats.
 		  (format "[[%s]]" (s-join "; " (--map (concat "autocite:" it) keys)))
 		(format "[[%s][%s::%s]]"  (s-join "; " (--map (concat "autocite:" it) keys)) prenote postnote))))
 
-#+end_src
-
-Ivy-bibtex settings.
-
-#+begin_src emacs-lisp :tangle yes
 (use-package ivy-bibtex
 	;; :bind ("s-4" . ivy-bibtex)
 	:after (ivy)
@@ -305,20 +326,5 @@ Ivy-bibtex settings.
 			;; (markdown-mode    . bibtex-completion-format-citation-cite)
 			(markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
 			(default       . bibtex-completion-format-citation-default))))
-#+end_src
-
-
-
-TeX clean functions from the shell.
-
-#+begin_src emacs-lisp :tangle yes
-  (defun tex-clean ()
-	(interactive)
-	(shell-command "latexmk -c"))
-
-
-  (defun tex-clean-all ()
-	(interactive)
-	(shell-command "latexmk -C"))
-
+            
 #+end_src
