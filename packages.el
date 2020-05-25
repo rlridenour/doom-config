@@ -50,3 +50,6 @@
 (package! hungry-delete)
 (package! wc-mode)
 (package! org-ref)
+(package! major-mode-hydra)
+(package! use-package-chords)
+(package! key-chord)

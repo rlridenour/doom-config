@@ -31,7 +31,9 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Droid Sans Mono Slashed" :size 14))
+(setq doom-font (font-spec :family "Droid Sans Mono Slashed" :size 14)
+      doom-big-font (font-spec :family "Droid Sans Mono Slashed" :size 18)
+      doom-variable-pitch-font (font-spec :family "Gill Sans" :size 14))
 
 #+end_src
 
@@ -88,6 +90,7 @@
 (delete-selection-mode 1)                         ; Replace selection when inserting text
 (display-time-mode 1)                             ; Enable time in the mode-line
 (display-battery-mode 1)                          ; On laptops it's nice to know how much power you have
+(show-smartparens-global-mode t)
 
 #+end_src
 
@@ -144,6 +147,12 @@ Set new buffers to org-mode
 ;;
 ;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
 ;; they are implemented.
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package! hungry-delete
+	:config
+	(global-hungry-delete-mode))
+#+end_src
 
 ** Input method
 
@@ -220,13 +229,13 @@ Set new buffers to org-mode
 	   "* %?\nEntered on %U\n  %i\n  %a")))
 (define-key global-map "\C-cc" 'org-capture)
 
-(use-package org-ref
+(use-package! org-ref
 	:after org
 	:init
 	(setq org-ref-completion-library 'org-ref-ivy-cite
 		  org-ref-default-bibliography '("~/Dropbox/bibtex/randybib.bib")))
 
-(use-package deft
+(use-package! deft
 :bind ("<f9>" . deft)
 :commands (deft)
   :config (setq deft-directory "~/Dropbox/org/notes")
@@ -312,7 +321,7 @@ Set new buffers to org-mode
 		  (format "[[%s]]" (s-join "; " (--map (concat "autocite:" it) keys)))
 		(format "[[%s][%s::%s]]"  (s-join "; " (--map (concat "autocite:" it) keys)) prenote postnote))))
 
-(use-package ivy-bibtex
+(use-package! ivy-bibtex
 	;; :bind ("s-4" . ivy-bibtex)
 	:after (ivy)
 	:config
@@ -327,4 +336,68 @@ Set new buffers to org-mode
 			(markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
 			(default       . bibtex-completion-format-citation-default))))
             
+#+end_src
+
+* Keybindings
+
+#+begin_src emacs-lisp :tangle yes
+  (global-unset-key (kbd "s-m"))
+
+  (use-package! major-mode-hydra
+	:bind
+	("s-m" . major-mode-hydra))
+#+end_src
+
+Major-mode Hydras
+
+#+begin_src emacs-lisp :tangle yes
+  (major-mode-hydra-bind markdown-mode "Format"
+	("h" markdown-insert-header-dwim "header") 
+	("l" markdown-insert-link "link")
+	("u" markdown-insert-uri "url")
+	("f" markdown-insert-footnote "footnote")
+	("w" markdown-insert-wiki-link "wiki")
+	("r" markdown-insert-reference-link-dwim "r-link")
+	("n" markdown-cleanup-list-numbers "clean-lists")
+	("c" markdown-complete-buffer "complete")
+
+	("q" nil))
+
+  (major-mode-hydra-bind latex-mode "Bibtex"
+	("b" ivy-bibtex "Ivy-Bibtex"))
+
+  (major-mode-hydra-bind latex-mode "LaTeXmk"
+	("p" rlr/tex-pvc "pvc")
+	("c" tex-clean "clean aux")
+	("C" tex-clean-all "clean all")
+
+	("q" nil))
+
+(major-mode-hydra-bind org-mode "Export"
+    ("b" org-beamer-export-to-pdf "Org to Beamer-PDF")
+    ("p" org-latex-export-to-pdf "Org to PDF"))
+
+  (major-mode-hydra-bind org-mode "Bibtex"
+	("r" ivy-bibtex "Ivy-Bibtex"))
+
+  (major-mode-hydra-bind org-mode "Clean"
+	("c" tex-clean "clean aux")
+	("C" tex-clean-all "clean all")
+
+	("q" nil))
+#+end_src
+
+Key-chords
+
+#+begin_src emacs-lisp :tangle yes
+
+
+  (use-package! key-chord
+  :init
+  (key-chord-mode 1)
+:config
+	(key-chord-define evil-normal-state-map "kj" 'doom/escape)
+	(key-chord-define evil-normal-state-map "jk" 'doom/escape)
+  (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state))
 #+end_src
