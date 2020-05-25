@@ -31,9 +31,9 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Droid Sans Mono Slashed" :size 14)
-      doom-big-font (font-spec :family "Droid Sans Mono Slashed" :size 18)
-      doom-variable-pitch-font (font-spec :family "Gill Sans" :size 14))
+(setq doom-font (font-spec :family "JetBrains Mono" :size 14)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 22)
+      doom-variable-pitch-font (font-spec :family "Overpass" :size 14))
 
 #+end_src
 
@@ -203,6 +203,7 @@ Set new buffers to org-mode
 
 #+begin_src emacs-lisp :tangle yes
 
+(add-hook! 'org-mode-hook #'+org-pretty-mode #'mixed-pitch-mode)
 
 ;; Enable ignoring a headline during export.
 (require 'ox-extra)
@@ -255,6 +256,7 @@ Set new buffers to org-mode
 
 #+begin_src emacs-lisp :tangle yes
 
+(add-hook 'LaTeX-mode-hook #'mixed-pitch-mode)
 
 (setq reftex-default-bibliography "~/Dropbox/bibtex/randybib.bib")
 (setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf -quiet -interaction=nonstopmode %f"))
@@ -336,6 +338,15 @@ Set new buffers to org-mode
 			(markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
 			(default       . bibtex-completion-format-citation-default))))
             
+#+end_src
+
+#+RESULTS:
+: t
+
+** Markdown
+
+#+begin_src emacs-lisp :tangle yes
+(add-hook! #'mixed-pitch-mode)
 #+end_src
 
 * Keybindings
