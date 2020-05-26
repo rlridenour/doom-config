@@ -53,3 +53,4 @@
 (package! major-mode-hydra)
 (package! use-package-chords)
 (package! key-chord)
+(package! zenburn-theme)
