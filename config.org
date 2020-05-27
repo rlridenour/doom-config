@@ -1,7 +1,6 @@
 #+TITLE: Doom Emacs Configuration
 #+AUTHOR: Randy Ridenour
 
-
 * Personal information
 
 #+begin_src emacs-lisp :tangle yes
@@ -14,7 +13,6 @@
 #+end_src
 
 * Appearance
-
 
 ** Fonts
 
@@ -36,7 +34,6 @@
       doom-variable-pitch-font (font-spec :family "Overpass" :size 15))
 
 #+end_src
-
 
 ** Theme
 
@@ -77,8 +74,6 @@
 ** Miscellaneous defaults
 
 #+begin_src emacs-lisp :tangle yes
-
-
 (setq-default
  delete-by-moving-to-trash t                      ; Delete files to trash
  tab-width 4                                      ; Set width for tabs
@@ -94,11 +89,9 @@
 
 #+end_src
 
-** Windows
+ Windows
 
 #+begin_src emacs-lisp :tangle yes
-
-
 ;; This asks which buffer to go to when splitting a window. First, go to the window.
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
@@ -112,15 +105,11 @@
 ;; Preview the buffer.
 
 (setq +ivy-buffer-preview t)
-
-
 #+end_src
 
 * Basic editing
 
 ** New Buffers
-
-
 
 Set new buffers to org-mode
 
@@ -149,7 +138,7 @@ Set new buffers to org-mode
 ;; they are implemented.
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package! hungry-delete
+  (use-package hungry-delete
 	:config
 	(global-hungry-delete-mode))
 #+end_src
@@ -197,6 +186,13 @@ Set new buffers to org-mode
 
 #+end_src
 
+The Shrink Whitespace package reduces all whitespace surrounding the point to one empty line or space when called once. When called again, it also eliminates that bit of whiespace.
+
+#+begin_src emacs-lisp :tangle yes
+  (use-package shrink-whitespace
+	:bind ("C-c w" . shrink-whitespace))
+#+end_src
+
 * Languages
 
 ** Org Mode
@@ -230,13 +226,13 @@ Set new buffers to org-mode
 	   "* %?\nEntered on %U\n  %i\n  %a")))
 (define-key global-map "\C-cc" 'org-capture)
 
-(use-package! org-ref
+(use-package org-ref
 	:after org
 	:init
 	(setq org-ref-completion-library 'org-ref-ivy-cite
 		  org-ref-default-bibliography '("~/Dropbox/bibtex/randybib.bib")))
 
-(use-package! deft
+(use-package deft
 :bind ("<f9>" . deft)
 :commands (deft)
   :config (setq deft-directory "~/Dropbox/org/notes")
@@ -429,7 +425,7 @@ To avoid error that org-strip-quotes is void.
 		  (format "[[%s]]" (s-join "; " (--map (concat "autocite:" it) keys)))
 		(format "[[%s][%s::%s]]"  (s-join "; " (--map (concat "autocite:" it) keys)) prenote postnote))))
 
-(use-package! ivy-bibtex
+(use-package ivy-bibtex
 	;; :bind ("s-4" . ivy-bibtex)
 	:after (ivy)
 	:config
@@ -460,7 +456,7 @@ To avoid error that org-strip-quotes is void.
 #+begin_src emacs-lisp :tangle yes
   (global-unset-key (kbd "s-m"))
 
-  (use-package! major-mode-hydra
+  (use-package major-mode-hydra
 	:bind
 	("s-m" . major-mode-hydra))
 #+end_src
@@ -509,7 +505,7 @@ Key-chords
 #+begin_src emacs-lisp :tangle yes
 
 
-  (use-package! key-chord
+  (use-package key-chord
   :init
   (key-chord-mode 1)
 :config

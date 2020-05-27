@@ -54,3 +54,4 @@
 (package! use-package-chords)
 (package! key-chord)
 (package! zenburn-theme)
+(package! shrink-whitespace)
