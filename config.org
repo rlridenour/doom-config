@@ -29,9 +29,10 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "JetBrains Mono" :size 15)
-      doom-big-font (font-spec :family "JetBrains Mono" :size 22)
-      doom-variable-pitch-font (font-spec :family "Overpass" :size 15))
+(setq doom-font (font-spec :family "IBM Plex Mono" :size 15)
+      doom-big-font (font-spec :family "IBM Plex Mono" :size 22)
+      doom-variable-pitch-font (font-spec :family "IBM Plex Sans" :size 15))
+
 
 #+end_src
 
@@ -109,33 +110,13 @@
 
 * Basic editing
 
-** New Buffers
-
-Set new buffers to org-mode
+Set scratch buffer to org-mode.
 
 #+begin_src emacs-lisp :tangle yes
-
-
-;; (setq-default major-mode 'org-mode)
-
+(setq initial-major-mode 'org-mode)
 #+end_src
 
-;; Here are some additional functions/macros that could help you configure Doom:
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c g k').
-;; This will open documentation for it, including demos of how they are used.
-;;
-;; You can also try 'gd' (or 'C-c g d') to jump to their definition and see how
-;; they are implemented.
+Hungry delete deletes consecutive whitespace.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package hungry-delete
@@ -143,23 +124,18 @@ Set new buffers to org-mode
 	(global-hungry-delete-mode))
 #+end_src
 
-** Input method
+Set  input method to TeX. This is especially useful for entering em and en-dashes.
 
 #+begin_src emacs-lisp :tangle yes
-
-
 (setq default-input-method 'TeX)
 (add-hook 'text-mode-hook 'toggle-input-method)
 (add-hook 'markdown-mode-hook 'toggle-input-method)
 (add-hook 'org-mode-hook 'toggle-input-method)
-
 #+end_src
 
-** Add custom snippets
+ Add my custom snippets to Yasnippet
 
 #+begin_src emacs-lisp :tangle yes
-
-
 (after! yasnippet
   (setq yas-snippet-dirs (append yas-snippet-dirs
         '("~/.doom.d/snippets"))))
@@ -193,6 +169,17 @@ The Shrink Whitespace package reduces all whitespace surrounding the point to on
 	:bind ("C-c w" . shrink-whitespace))
 #+end_src
 
+Kill contents of scratch buffer, not the buffer itself. From [[http://emacswiki.org/emacs/RecreateScratchBuffer][TN]].
+
+#+begin_src emacs-lisp :tangle yes
+  (defun unkillable-scratch-buffer ()
+	(if (equal (buffer-name (current-buffer)) "*scratch*")
+		(progn
+		  (delete-region (point-min) (point-max))
+		  nil)
+	  t))
+  (add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
+#+end_src
 * Languages
 
 ** Org Mode
@@ -353,7 +340,12 @@ Return adds new heading or list item.
 	'scimax/org-return)
 #+end_src
 
-To avoid error that org-strip-quotes is void.
+Org-Roam
+
+#+begin_src emacs-lisp :tangle yes
+      (setq org-roam-directory "~/Dropbox/org/roam/")
+#+end_src
+
 ** LaTeX
 
 #+begin_src emacs-lisp :tangle yes
@@ -442,9 +434,6 @@ To avoid error that org-strip-quotes is void.
             
 #+end_src
 
-#+RESULTS:
-: t
-
 ** Markdown
 
 #+begin_src emacs-lisp :tangle yes
@@ -498,6 +487,13 @@ Major-mode Hydras
 	("C" tex-clean-all "clean all")
 
 	("q" nil))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(map! :leader
+(:desc "open" :prefix "o"
+ :desc "Open in default app" :n "D" #'+macos/open-in-default-program)
+)
 #+end_src
 
 Key-chords
