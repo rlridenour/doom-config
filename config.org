@@ -87,6 +87,7 @@
 (display-time-mode 1)                             ; Enable time in the mode-line
 (display-battery-mode 1)                          ; On laptops it's nice to know how much power you have
 (show-smartparens-global-mode t)
+(global-visual-line-mode t)
 
 #+end_src
 
@@ -180,13 +181,29 @@ Kill contents of scratch buffer, not the buffer itself. From [[http://emacswiki.
 	  t))
   (add-hook 'kill-buffer-query-functions 'unkillable-scratch-buffer)
 #+end_src
+
+** Saved Keyboard Macros
+
+Splits Org-mode list items
+
+#+begin_src emacs-lisp :tangle yes
+(fset 'split-org-item
+   [?\C-k ?\M-\\ return ?\C-y])
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle yes
+(fset 'convert-markdown-to-org
+   [?\M-< ?\M-% ?* return ?- return ?! ?\M-< ?\C-\M-% ?# ?* backspace backspace ?  ?# ?* ?$ return return ?! ?\M-< ?\M-% ?# return ?* return ?!])
+#+end_src
+
 * Languages
 
 ** Org Mode
 
 #+begin_src emacs-lisp :tangle yes
 
-(add-hook! 'org-mode-hook #'+org-pretty-mode #'mixed-pitch-mode)
+;; (add-hook! 'org-mode-hook #'+org-pretty-mode #'mixed-pitch-mode)
 
 ;; Enable ignoring a headline during export.
 (require 'ox-extra)
@@ -346,11 +363,12 @@ Org-Roam
       (setq org-roam-directory "~/Dropbox/org/roam/")
 #+end_src
 
+
 ** LaTeX
 
 #+begin_src emacs-lisp :tangle yes
 
-(add-hook 'LaTeX-mode-hook #'mixed-pitch-mode)
+;; (add-hook 'LaTeX-mode-hook #'mixed-pitch-mode)
 
 (setq reftex-default-bibliography "~/Dropbox/bibtex/randybib.bib")
 (setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf -quiet -interaction=nonstopmode %f"))
@@ -431,13 +449,13 @@ Org-Roam
 			;; (markdown-mode    . bibtex-completion-format-citation-cite)
 			(markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
 			(default       . bibtex-completion-format-citation-default))))
-            
+
 #+end_src
 
 ** Markdown
 
 #+begin_src emacs-lisp :tangle yes
-(add-hook! #'mixed-pitch-mode)
+;; (add-hook! #'mixed-pitch-mode)
 #+end_src
 
 * Keybindings
