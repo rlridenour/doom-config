@@ -12,9 +12,11 @@
 
 #+end_src
 
-* Appearance
+* Doom Tweaks
 
-** Fonts
+** Appearance
+
+Set font to IBM Plex Mono. The variable pitch font is IBM Plex Sans, but I'm not using mixed-pitch anywhere.
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -36,7 +38,7 @@
 
 #+end_src
 
-** Theme
+I have looked at all the Doom themes, but I'm still a fan of Zenburn.
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -46,18 +48,6 @@
 ;; `load-theme' function. This is the default:
 ;;(setq doom-theme 'doom-one)
 (setq doom-theme 'zenburn)
-
-#+end_src
-
-** Set org directory
-
-#+begin_src emacs-lisp :tangle yes
-
-
-
-;; If you use `org' and don't want your org files in the default location below,
-;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/Dropbox/org/")
 
 #+end_src
 
@@ -91,7 +81,7 @@
 
 #+end_src
 
- Windows
+** Windows
 
 #+begin_src emacs-lisp :tangle yes
 ;; This asks which buffer to go to when splitting a window. First, go to the window.
@@ -107,6 +97,14 @@
 ;; Preview the buffer.
 
 (setq +ivy-buffer-preview t)
+#+end_src
+
+** PDF Tools
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! pdf-tools
+  :config
+  (pdf-tools-install))
 #+end_src
 
 * Basic editing
@@ -201,6 +199,20 @@ Splits Org-mode list items
 
 ** Org Mode
 
+
+#+begin_src emacs-lisp :tangle yes
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+(setq org-directory "~/Dropbox/org/")
+#+end_src
+
+Don't use the Doom Org-mode template.
+
+#+begin_src emacs-lisp :tangle yes
+(set-file-template! "\\.org$" :ignore t)
+#+end_src
+
+
 #+begin_src emacs-lisp :tangle yes
 
 ;; (add-hook! 'org-mode-hook #'+org-pretty-mode #'mixed-pitch-mode)
@@ -239,9 +251,10 @@ Splits Org-mode list items
 (use-package deft
 :bind ("<f9>" . deft)
 :commands (deft)
-  :config (setq deft-directory "~/Dropbox/org/notes")
+  :config (setq deft-directory "~/Dropbox/org/roam")
           (setq deft-extensions '("org"))
           (setq deft-default-extension "org")
+          (setq deft-use-filename-as-title nil)
           (setq deft-org-mode-title-prefix t)
           (setq deft-use-filter-string-for-filename t)
           (setq deft-file-naming-rules
@@ -361,6 +374,35 @@ Org-Roam
 
 #+begin_src emacs-lisp :tangle yes
       (setq org-roam-directory "~/Dropbox/org/roam/")
+#+end_src
+
+Org-roam-bibtex
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :bind (:map org-mode-map
+         (("C-c n a" . orb-note-actions))))
+#+end_src
+
+Org-Noter
+
+#+begin_src emacs-lisp :tangle no
+(use-package! org-noter
+  :after (:any org pdf-view)
+  :config
+  (setq
+   ;; The WM can handle splits
+   org-noter-notes-window-location 'other-frame
+   ;; Please stop opening frames
+   org-noter-always-create-frame nil
+   ;; I want to see the whole file
+   org-noter-hide-other nil
+   ;; Everything is relative to the rclone mega
+   org-noter-notes-search-path (list org_notes)
+   )
+  )
 #+end_src
 
 
