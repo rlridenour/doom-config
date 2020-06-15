@@ -67,7 +67,7 @@ I have looked at all the Doom themes, but I'm still a fan of Zenburn.
 #+begin_src emacs-lisp :tangle yes
 (setq-default
  delete-by-moving-to-trash t                      ; Delete files to trash
- tab-width 4                                      ; Set width for tabs
+ ;; tab-width 4                                      ; Set width for tabs
  uniquify-buffer-name-style 'forward)              ; Uniquify buffer names
 
 (setq evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
@@ -105,6 +105,19 @@ I have looked at all the Doom themes, but I'm still a fan of Zenburn.
 (use-package! pdf-tools
   :config
   (pdf-tools-install))
+#+end_src
+
+** Dired
+
+Hide various file types, mostly LaTeX auxiliary files, in Dired.
+
+#+begin_src emacs-lisp :tangle yes
+  (require 'dired-x)
+  (setq-default dired-omit-files-p t) ; this is buffer-local variable
+  (setq dired-omit-files
+		(concat dired-omit-files "\\|^\\..+$"))
+  (setq-default dired-omit-extensions '("fdb_latexmk" "aux" "bbl" "blg" "fls" "glo" "idx" "ilg" "ind" "ist" "log" "out" "gz" "bcf" "run.xml"  "DS_Store"))
+  (setq dired-dwim-target t)
 #+end_src
 
 * Basic editing
@@ -368,41 +381,6 @@ Return adds new heading or list item.
 		(org-return)))))
   (define-key org-mode-map (kbd "RET")
 	'scimax/org-return)
-#+end_src
-
-Org-Roam
-
-#+begin_src emacs-lisp :tangle yes
-      (setq org-roam-directory "~/Dropbox/org/roam/")
-#+end_src
-
-Org-roam-bibtex
-
-#+begin_src emacs-lisp :tangle yes
-(use-package! org-roam-bibtex
-  :after org-roam
-  :hook (org-roam-mode . org-roam-bibtex-mode)
-  :bind (:map org-mode-map
-         (("C-c n a" . orb-note-actions))))
-#+end_src
-
-Org-Noter
-
-#+begin_src emacs-lisp :tangle no
-(use-package! org-noter
-  :after (:any org pdf-view)
-  :config
-  (setq
-   ;; The WM can handle splits
-   org-noter-notes-window-location 'other-frame
-   ;; Please stop opening frames
-   org-noter-always-create-frame nil
-   ;; I want to see the whole file
-   org-noter-hide-other nil
-   ;; Everything is relative to the rclone mega
-   org-noter-notes-search-path (list org_notes)
-   )
-  )
 #+end_src
 
 
