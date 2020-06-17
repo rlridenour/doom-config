@@ -120,6 +120,10 @@ Hide various file types, mostly LaTeX auxiliary files, in Dired.
   (setq dired-dwim-target t)
 #+end_src
 
+#+begin_src emacs-lisp :tangle yes
+(use-package! deadgrep)
+#+end_src
+
 * Basic editing
 
 Set scratch buffer to org-mode.
@@ -245,37 +249,12 @@ Don't use the Doom Org-mode template.
 (add-hook 'org-mode-hook 'flyspell-ignore-tex)
 
 
-;; Use C-c c for Org Capture to ~/Dropbox/notes.org
-
-;;(setq org-default-notes-file (concat org-directory "/notes.org"))
-(setq org-capture-templates
-	'(("t" "Todo" entry (file+headline "~/Dropbox/org/tasks.org" "Tasks")
-	   "* TODO %?\n  %i\n  %a")
-	  ("j" "Journal" entry (file+datetree "~/Dropbox/org/journal.org")
-	   "* %?\nEntered on %U\n  %i\n  %a")))
-(define-key global-map "\C-cc" 'org-capture)
 
 (use-package org-ref
 	:after org
 	:init
 	(setq org-ref-completion-library 'org-ref-ivy-cite
 		  org-ref-default-bibliography '("~/Dropbox/bibtex/randybib.bib")))
-
-(use-package deft
-:bind ("<f9>" . deft)
-:commands (deft)
-  :config (setq deft-directory "~/Dropbox/org/roam")
-          (setq deft-extensions '("org"))
-          (setq deft-default-extension "org")
-          (setq deft-use-filename-as-title nil)
-          (setq deft-org-mode-title-prefix t)
-          (setq deft-use-filter-string-for-filename t)
-          (setq deft-file-naming-rules
-                '((noslash . "-")
-                  (nospace . "-")
-                  (case-fn . downcase)))
-          (setq deft-text-mode 'org-mode))
-
 #+end_src
 
 Return adds new heading or list item.
@@ -383,6 +362,36 @@ Return adds new heading or list item.
 	'scimax/org-return)
 #+end_src
 
+*** Org Roam
+
+#+begin_src emacs-lisp :tangle yes
+(setq org-roam-directory "~/Dropbox/org")
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package org-journal
+      :bind
+      ("C-c n j" . org-journal-new-entry)
+      :custom
+      (org-journal-dir "~/Dropbox/org")
+      (org-journal-date-prefix "#+TITLE: ")
+      (org-journal-file-format "%Y-%m-%d.org")
+      (org-journal-date-format "%A, %d %B %Y"))
+    (setq org-journal-enable-agenda-integration t)
+#+end_src
+
+
+#+begin_src emacs-lisp :tangle yes
+(use-package deft
+      :after org
+      :bind
+      ("C-c n d" . deft)
+      :custom
+      (deft-recursive t)
+      (deft-use-filter-string-for-filename t)
+      (deft-default-extension "org")
+      (deft-directory "~/Dropbox/org"))
+#+end_src
 
 ** LaTeX
 
@@ -534,6 +543,12 @@ Major-mode Hydras
 )
 #+end_src
 
+#+begin_src emacs-lisp :tangle yes
+(map! :leader
+(:desc "search" :prefix "s"
+ :desc "Deadgrep" :n "g" #'deadgrep)
+)
+#+end_src
 Key-chords
 
 #+begin_src emacs-lisp :tangle yes
@@ -548,6 +563,12 @@ Key-chords
   (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
   (key-chord-define evil-insert-state-map "jk" 'evil-normal-state))
 #+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(bind-keys
+   ("<s-backspace>" . kill-whole-line))
+#+end_src
+
 
 * Final Steps
 

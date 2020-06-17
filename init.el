@@ -27,8 +27,9 @@
         +icons
         +childframe
         +icons
-        +fuzzy
-        +prescient)
+        ;; +fuzzy
+        +prescient
+        )
        :ui
        deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
@@ -150,8 +151,10 @@
        ;;ocaml             ; an objective camel
        (org               ; organize your plain life in plain text
         +org-plus-contrib
+        +journal
         +present
-        +pandoc)
+        +pandoc
+        +roam)
        ;;perl              ; write code no one else can comprehend
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more

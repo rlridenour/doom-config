@@ -55,3 +55,5 @@
 (package! key-chord)
 (package! zenburn-theme)
 (package! shrink-whitespace)
+(package! deadgrep)
+(package! deft)
