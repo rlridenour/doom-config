@@ -57,3 +57,5 @@
 (package! shrink-whitespace)
 (package! deadgrep)
 (package! deft)
+(package! orgonomic
+  :recipe (:host github :repo "aaronjensen/emacs-orgonomic"))
