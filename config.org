@@ -279,7 +279,7 @@ Return adds new heading or list item. From [[https://github.com/aaronjensen/emac
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-(use-package org-journal
+(use-package! org-journal
       :bind
       ("C-c n j" . org-journal-new-entry)
       :custom
@@ -292,7 +292,7 @@ Return adds new heading or list item. From [[https://github.com/aaronjensen/emac
 
 
 #+begin_src emacs-lisp :tangle yes
-(use-package deft
+(use-package! deft
       :after org
       :bind
       ("C-c n d" . deft)
@@ -301,6 +301,26 @@ Return adds new heading or list item. From [[https://github.com/aaronjensen/emac
       (deft-use-filter-string-for-filename t)
       (deft-default-extension "org")
       (deft-directory "~/Dropbox/org"))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(setq org-roam-capture-templates
+  '(("d" "default" plain (function org-roam-capture--get-point)
+     "%?"
+     :file-name "%<%Y%m%d%H%M%S>-${slug}"
+     :head "#+title: ${title}\n#+ROAM_TAGS: \n"
+     :unnarrowed t)))
+#+end_src
+
+Org-roam bibtex
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-roam-bibtex
+  :after org-roam
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :bind (:map org-mode-map
+         (("C-c n a" . orb-note-actions))))
+
 #+end_src
 
 ** LaTeX
