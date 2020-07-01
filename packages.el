@@ -57,6 +57,7 @@
 (package! shrink-whitespace)
 (package! deadgrep)
 (package! deft)
+(package! ebib)
 (package! orgonomic
   :recipe (:host github :repo "aaronjensen/emacs-orgonomic"))
 (package! org-roam-bibtex

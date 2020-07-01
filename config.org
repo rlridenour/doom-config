@@ -108,6 +108,7 @@ I have looked at all the Doom themes, but I'm still a fan of Zenburn.
 
 #+begin_src emacs-lisp :tangle yes
 (use-package! pdf-tools
+  :defer
   :config
   (pdf-tools-install))
 #+end_src
@@ -126,7 +127,8 @@ Hide various file types, mostly LaTeX auxiliary files, in Dired.
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-(use-package! deadgrep)
+(use-package! deadgrep
+  :defer)
 #+end_src
 
 * Basic editing
@@ -141,6 +143,7 @@ Hungry delete deletes consecutive whitespace.
 
 #+begin_src emacs-lisp :tangle yes
   (use-package hungry-delete
+    :defer
 	:config
 	(global-hungry-delete-mode))
 #+end_src
@@ -160,8 +163,33 @@ Set  input method to TeX. This is especially useful for entering em and en-dashe
 (after! yasnippet
   (setq yas-snippet-dirs (append yas-snippet-dirs
         '("~/.doom.d/snippets"))))
+#+end_src
 
+Use ebib for bibtex file management
 
+#+begin_src emacs-lisp :tangle yes
+(use-package! ebib
+:defer
+(ebib-preload-bib-files '("bibtexfile1.bib" "bibtexfile2.bib"))
+:config
+(setq ebib-bibtex-dialect 'biblatex)
+:custom
+(ebib-preload-bib-files '("~/bibtex/rlr-bib/rlr.bib")))
+
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+  (defun insert-date-string ()
+	"Insert current date yyyymmdd."
+	(interactive)
+	(insert (format-time-string "%Y%m%d")))
+
+  (defun insert-standard-date ()
+	"Inserts standard date time string."
+	(interactive)
+	(insert (format-time-string "%B %e, %Y")))
+  (global-set-key (kbd "<f8>") 'insert-standard-date)
+  (global-set-key (kbd "C-c d") 'insert-date-string)
 #+end_src
 
 ** Spelling
@@ -186,7 +214,8 @@ Set  input method to TeX. This is especially useful for entering em and en-dashe
 The Shrink Whitespace package reduces all whitespace surrounding the point to one empty line or space when called once. When called again, it also eliminates that bit of whiespace.
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package shrink-whitespace
+  (use-package! shrink-whitespace
+    :defer
 	:bind ("C-c w" . shrink-whitespace))
 #+end_src
 
@@ -259,7 +288,7 @@ Don't use the Doom Org-mode template.
 	:after org
 	:init
 	(setq org-ref-completion-library 'org-ref-ivy-cite
-		  org-ref-default-bibliography '("~/Dropbox/bibtex/randybib.bib")))
+		  org-ref-default-bibliography '("~/bibtex/rlr-bib/rlr.bib")))
 #+end_src
 
 Return adds new heading or list item. From [[https://github.com/aaronjensen/emacs-orgonomic][Aaron Jensen]]
@@ -280,6 +309,7 @@ Return adds new heading or list item. From [[https://github.com/aaronjensen/emac
 
 #+begin_src emacs-lisp :tangle yes
 (use-package! org-journal
+  :after org
       :bind
       ("C-c n j" . org-journal-new-entry)
       :custom
@@ -329,14 +359,14 @@ Org-roam bibtex
 
 ;; (add-hook 'LaTeX-mode-hook #'mixed-pitch-mode)
 
-(setq reftex-default-bibliography "~/Dropbox/bibtex/randybib.bib")
+(setq reftex-default-bibliography "~/bibtex/rlr-bib/rlr.bib")
 (setq org-latex-pdf-process (list "latexmk -shell-escape -f -pdf -quiet -interaction=nonstopmode %f"))
 (setq ivy-re-builders-alist
       '((ivy-bibtex . ivy--regex-ignore-order)
         (t . ivy--regex-plus)))
 
 ;; (setq bibtex-completion-bibliography
-;;       '("~/Dropbox/bibtex/randybib.bib"))
+;;       '("~/bibtex/rlr-bib/rlr.bib"))
 
 
 
@@ -461,8 +491,8 @@ Use Ivy-bibtex for reference completions.
 	;; :bind ("s-4" . ivy-bibtex)
 	:after (ivy)
 	:config
-	(setq bibtex-completion-bibliography '("~/Dropbox/bibtex/randybib.bib"))
-	(setq reftex-default-bibliography '("~/Dropbox/bibtex/randybib.bib"))
+	(setq bibtex-completion-bibliography '("~/bibtex/rlr-bib/rlr.bib"))
+	(setq reftex-default-bibliography '("~/bibtex/rlr-bib/rlr.bib"))
 	(setq bibtex-completion-pdf-field "File")
 	(setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
 	(setq bibtex-completion-format-citation-functions
@@ -486,6 +516,7 @@ Use Ivy-bibtex for reference completions.
   (global-unset-key (kbd "s-m"))
 
   (use-package major-mode-hydra
+    :defer
 	:bind
 	("s-m" . major-mode-hydra))
 #+end_src
