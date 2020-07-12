@@ -517,6 +517,14 @@ Use Ivy-bibtex for reference completions.
 ;; (add-hook! #'mixed-pitch-mode)
 #+end_src
 
+#+begin_src emacs-lisp :tangle yes
+(use-package! markdown-mode
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.Rmd\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
+#+end_src
+
 * Keybindings
 
 #+begin_src emacs-lisp :tangle yes
