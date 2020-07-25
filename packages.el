@@ -68,3 +68,5 @@
 
 ;; When using bibtex-completion via the `biblio` module
 (unpin! bibtex-completion helm-bibtex ivy-bibtex)
+(package! dired-narrow)
+(package! modus-operandi-theme)
