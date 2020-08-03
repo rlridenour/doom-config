@@ -45,11 +45,10 @@ Use Modus-operandi theme.
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-;; (setq doom-theme 'doom-one)
-;; (setq doom-theme 'zenburn)
+(setq doom-theme 'doom-zenburn)
 #+end_src
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 (use-package! modus-operandi-theme
   :init
   (setq modus-operandi-theme-slanted-constructs t
@@ -272,6 +271,15 @@ Splits Org-mode list items
 #+begin_src emacs-lisp :tangle yes
 (fset 'convert-markdown-to-org
    [?\M-< ?\M-% ?* return ?- return ?! ?\M-< ?\C-\M-% ?# ?* backspace backspace ?  ?# ?* ?$ return return ?! ?\M-< ?\M-% ?# return ?* return ?!])
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! grab-mac-link
+  :defer
+  :config
+  (setq grab-mac-link-dwim-favourite-app 'safari)
+  :bind
+  ("C-c l" . grab-mac-link-dwim))
 #+end_src
 
 * Languages
@@ -635,8 +643,11 @@ Key-chords
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
-(bind-keys
-   ("<s-backspace>" . kill-whole-line))
+(map!
+   ("<s-backspace>" 'kill-whole-line)
+   ("<s-up>"  'beginning-of-buffer)
+   ("<s-down>" 'end-of-buffer))
+
 #+end_src
 
 

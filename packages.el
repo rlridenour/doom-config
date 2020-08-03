@@ -53,7 +53,6 @@
 (package! major-mode-hydra)
 (package! use-package-chords)
 (package! key-chord)
-(package! zenburn-theme)
 (package! shrink-whitespace)
 (package! deadgrep)
 (package! deft)
@@ -70,3 +69,6 @@
 (unpin! bibtex-completion helm-bibtex ivy-bibtex)
 (package! dired-narrow)
 (package! modus-operandi-theme)
+(package! fish-mode)
+(package! grab-mac-link
+  :recipe (:host github :repo "xuchunyang/grab-mac-link.el"))
