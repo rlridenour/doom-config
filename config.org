@@ -389,6 +389,55 @@ Org-roam bibtex
 
 #+end_src
 
+OBU letter
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'org-latex-classes
+			   '("rlr-obu-letter"
+				 "\\documentclass[12pt]{obuletter}
+
+  % Customize variables --- for the entire list, see obuletter.cls and myletter.cls.
+  \\newcommand{\\obuDept}{Department of Philosophy} % For personal letterhead, use name here.
+  \\newcommand{\\Sender}{Randy Ridenour, Ph.D.}
+  \\newcommand{\\obuTitle}{Professor of Philosophy}
+  \\newcommand{\\obuCollege}{Hobbs College of Theology and Ministry} % For personal letterhead, use title here.
+  \\newcommand{\\obuPhone}{405.585.4432}
+  \\newcommand{\\obuFax}{405.878.2401}
+  \\newcommand{\\closing}{Sincerely,}
+  \\newcommand{\\toName}{Recipient}
+  \\newcommand{\\toAddress}{Street Address\\\\City, State ZIP}
+
+		  [NO-DEFAULT-PACKAGES]
+		  [NO-PACKAGES]"
+				 ("\\section{%s}" . "\\section*{%s}")
+				 ("\\subsection{%s}" . "\\subsection*{%s}")
+				 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+				 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+				 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+end_src
+
+Personal letter
+
+#+begin_src emacs-lisp :tangle yes
+  (add-to-list 'org-latex-classes
+			   '("rlr-personal-letter"
+				 "\\documentclass[12pt]{myletter}
+
+  % Customize variables --- for the entire list, see obuletter.cls and myletter.cls.
+  \\newcommand{\\Sender}{Randy Ridenour}
+  \\newcommand{\\closing}{Sincerely,}
+  \\newcommand{\\toName}{Recipient}
+  \\newcommand{\\toAddress}{Street Address\\\\City, State ZIP}
+
+		  [NO-DEFAULT-PACKAGES]
+		  [NO-PACKAGES]"
+				 ("\\section{%s}" . "\\section*{%s}")
+				 ("\\subsection{%s}" . "\\subsection*{%s}")
+				 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+				 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+				 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+end_src
+
 ** LaTeX
 
 #+begin_src emacs-lisp :tangle yes
