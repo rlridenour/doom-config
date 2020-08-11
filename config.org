@@ -286,8 +286,25 @@ Splits Org-mode list items
 
 ** Org Mode
 
-
 #+begin_src emacs-lisp :tangle yes
+(use-package! org
+  :init
+  (setq org-directory "~/Dropbox/org/")
+  :config
+  (setq org-startup-indented nil)
+  (setq org-adapt-indentation nil)
+  (setq org-hide-leading-stars nil)
+  (defun force-org-hide-leading-stars ()
+    "See issue for more info: https://github.com/hlissner/doom-emacs/issues/3076"
+    (setq org-hide-leading-stars nil)
+    (font-lock-mode -1)
+    (font-lock-mode +1))
+  (add-hook 'org-mode-hook #'force-org-hide-leading-stars))
+#+end_src
+
+
+
+#+begin_src emacs-lisp :tangle no
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/Dropbox/org/")
@@ -297,6 +314,27 @@ Don't use the Doom Org-mode template.
 
 #+begin_src emacs-lisp :tangle yes
 (set-file-template! "\\.org$" :ignore t)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+(after! org
+  (setq org-hide-leading-stars nil
+        org-startup-indented nil)
+  (remove-hook 'org-mode-hook #'org-superstar-mode))
+#+end_src
+
+Force emacs to hide leading stars, from [[https://github.com/evanrelf/dotfiles/blob/master/doom/.config/doom/config.el][Evan Relf]].
+
+#+begin_src emacs-lisp :tangle no
+(setq org-startup-indented nil)
+  (setq org-adapt-indentation nil)
+  (setq org-hide-leading-stars nil)
+  (defun force-org-hide-leading-stars ()
+    "See issue for more info: https://github.com/hlissner/doom-emacs/issues/3076"
+    (setq org-hide-leading-stars nil)
+    (font-lock-mode -1)
+    (font-lock-mode +1))
+  (add-hook 'org-mode-hook #'force-org-hide-leading-stars))
 #+end_src
 
 
