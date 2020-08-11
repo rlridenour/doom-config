@@ -31,7 +31,7 @@ Set font to Bitstream Vera.
 ;; font string. You generally only need these two:
 (setq doom-font (font-spec :family "Bitstream Vera Sans Mono" :size 16)
       doom-big-font (font-spec :family "Bitstream Vera Sans Mono" :size 22)
-      doom-variable-pitch-font (font-spec :family "Bitstream Vera Sans   " :size 16))
+      doom-variable-pitch-font (font-spec :family "Bitstream Vera Sans" :size 16))
 
 ;; Start fullscreen with writeroom-mode.
 (setq writeroom-fullscreen-effect t
