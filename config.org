@@ -655,6 +655,7 @@ Use Ivy-bibtex for reference completions.
 
   (use-package major-mode-hydra
     :defer
+    :init
 	:bind
 	("s-m" . major-mode-hydra))
 #+end_src
@@ -662,43 +663,41 @@ Use Ivy-bibtex for reference completions.
 Major-mode Hydras
 
 #+begin_src emacs-lisp :tangle yes
-  (major-mode-hydra-bind markdown-mode "Format"
-	("h" markdown-insert-header-dwim "header")
+(major-mode-hydra-define markdown-mode
+    (:quit-key "q")
+  ("Format"
+	(("h" markdown-insert-header-dwim "header")
 	("l" markdown-insert-link "link")
 	("u" markdown-insert-uri "url")
 	("f" markdown-insert-footnote "footnote")
 	("w" markdown-insert-wiki-link "wiki")
 	("r" markdown-insert-reference-link-dwim "r-link")
 	("n" markdown-cleanup-list-numbers "clean-lists")
-	("c" markdown-complete-buffer "complete")
+	("c" markdown-complete-buffer "complete"))))
 
-	("q" nil))
 
-  (major-mode-hydra-bind latex-mode "Bibtex"
-	("b" ivy-bibtex "Ivy-Bibtex"))
-
-  (major-mode-hydra-bind latex-mode "LaTeXmk"
-	("p" rlr/tex-pvc "pvc")
+  (major-mode-hydra-define latex-mode
+    (:quit-key "q")
+    ("Bibtex"
+	(("b" ivy-bibtex "Ivy-Bibtex"))
+     "LaTeXmk"
+	(("p" rlr/tex-pvc "pvc")
 	("c" tex-clean "clean aux")
-	("C" tex-clean-all "clean all")
+	("C" tex-clean-all "clean all"))))
 
-	("q" nil))
-
-(major-mode-hydra-bind org-mode "Export"
-    ("l" org-latex-export-to-latex "Org to LaTeX")
+(major-mode-hydra-define org-mode
+  (:quit-key "q")
+  ("Export"
+    (("l" org-latex-export-to-latex "Org to LaTeX")
     ("p" org-latex-export-to-pdf "Org to PDF")
     ("b" org-beamer-export-to-pdf "Org to Beamer-PDF")
     ("B" org-beamer-export-to-latex "Org to Beamer-LaTeX"))
+  "Bibtex"
+	(("r" ivy-bibtex "Ivy-Bibtex"))
+  "Clean"
+	(("c" tex-clean "clean aux")
+	("C" tex-clean-all "clean all"))))
 
-
-  (major-mode-hydra-bind org-mode "Bibtex"
-	("r" ivy-bibtex "Ivy-Bibtex"))
-
-  (major-mode-hydra-bind org-mode "Clean"
-	("c" tex-clean "clean aux")
-	("C" tex-clean-all "clean all")
-
-	("q" nil))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
