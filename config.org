@@ -701,6 +701,13 @@ Major-mode Hydras
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
+(major-mode-hydra-define dired-mode
+  (:quit-key "q")
+  ("Tools"
+   (("d" +macos/open-in-default-program "Open in Default Program"))))
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
 (map! :leader
 (:desc "open" :prefix "o"
  :desc "Open in default app" :n "D" #'+macos/open-in-default-program)
