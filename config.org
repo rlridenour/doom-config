@@ -223,7 +223,7 @@ Unfill paragraph
 
 Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
   (defun unfill-paragraph (&optional region)
 	"Takes a multi-line paragraph and makes it into a single line of text."
 	(interactive (progn (barf-if-buffer-read-only) '(t)))
@@ -254,7 +254,7 @@ The Shrink Whitespace package reduces all whitespace surrounding the point to on
 #+begin_src emacs-lisp :tangle yes
   (use-package! shrink-whitespace
     :defer
-	:bind ("C-c w" . shrink-whitespace))
+	:bind ("<f5>" . shrink-whitespace))
 #+end_src
 
 Kill contents of scratch buffer, not the buffer itself. From [[http://emacswiki.org/emacs/RecreateScratchBuffer][TN]].
@@ -751,12 +751,9 @@ Key-chords
    ("<s-backspace>" 'kill-whole-line)
    ("<s-up>"  'beginning-of-buffer)
    ("<s-down>" 'end-of-buffer))
-
 #+end_src
 
-
 * Final Steps
-
 
 #+begin_src emacs-lisp :tangle yes
   (setq default-directory "~/")
