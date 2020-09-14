@@ -385,6 +385,23 @@ Return adds new heading or list item. From [[https://github.com/aaronjensen/emac
   :hook (org-mode . orgonomic-mode))
 #+end_src
 
+Functions for automating lecture notes and slides
+
+#+begin_src emacs-lisp :tangle yes
+(defun lecture-slides ()
+"publish org file as beamer slides"
+(interactive)
+(find-file "*-slides.org" t)
+(org-beamer-export-to-pdf)
+(find-file "*-data.org" t))
+
+(defun lecture-notes ()
+"publish org files as beamer notes"
+(interactive)
+(find-file "*-notes.org" t)
+(org-beamer-export-to-pdf)
+(find-file "*-data.org" t))
+#+end_src
 
 *** Org Roam
 
@@ -702,7 +719,10 @@ Major-mode Hydras
     (("l" org-latex-export-to-latex "Org to LaTeX")
     ("p" org-latex-export-to-pdf "Org to PDF")
     ("b" org-beamer-export-to-pdf "Org to Beamer-PDF")
-    ("B" org-beamer-export-to-latex "Org to Beamer-LaTeX"))
+    ("B" org-beamer-export-to-latex "Org to Beamer-LaTeX")
+    ("s" lecture-slides "Lecture slides")
+    ("n" lecture-notes "Lecture notes")
+    )
   "Bibtex"
 	(("r" ivy-bibtex "Ivy-Bibtex"))
   "Clean"
