@@ -397,7 +397,7 @@ Functions for automating lecture notes and slides
 (find-file "*-notes.org" t)
 (org-beamer-export-to-latex)
 (kill-buffer)
-(kill-buffer "*.tex")
+;(kill-buffer "*.tex")
 (find-file "*-data.org" t))
 #+end_src
 
