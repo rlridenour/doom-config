@@ -184,6 +184,15 @@ Set  input method to TeX. This is especially useful for entering em and en-dashe
 (add-hook 'org-mode-hook 'toggle-input-method)
 #+end_src
 
+Don't use doom snippets
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+;; in ~/.doom.d/packages.el
+(package! doom-snippets :ignore t)
+;; If you want to replace it with yasnippet's default snippets
+;; (package! yasnippet-snippets)
+#+END_SRC
+
  Add my custom snippets to Yasnippet
 
 #+begin_src emacs-lisp :tangle yes
@@ -254,7 +263,7 @@ The Shrink Whitespace package reduces all whitespace surrounding the point to on
 #+begin_src emacs-lisp :tangle yes
   (use-package! shrink-whitespace
     :defer
-	:bind ("<f5>" . shrink-whitespace))
+	:bind ("C-c s" . shrink-whitespace))
 #+end_src
 
 Kill contents of scratch buffer, not the buffer itself. From [[http://emacswiki.org/emacs/RecreateScratchBuffer][TN]].
