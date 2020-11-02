@@ -72,3 +72,4 @@
 (package! fish-mode)
 (package! grab-mac-link
   :recipe (:host github :repo "xuchunyang/grab-mac-link.el"))
+(package! doom-snippets :ignore t)

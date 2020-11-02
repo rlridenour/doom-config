@@ -184,14 +184,6 @@ Set  input method to TeX. This is especially useful for entering em and en-dashe
 (add-hook 'org-mode-hook 'toggle-input-method)
 #+end_src
 
-Don't use doom snippets
-
-#+BEGIN_SRC emacs-lisp :tangle yes
-;; in ~/.doom.d/packages.el
-(package! doom-snippets :ignore t)
-;; If you want to replace it with yasnippet's default snippets
-;; (package! yasnippet-snippets)
-#+END_SRC
 
  Add my custom snippets to Yasnippet
 
