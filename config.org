@@ -216,7 +216,7 @@ Set scratch buffer to org-mode.
 Hungry delete deletes consecutive whitespace.
 
 #+begin_src emacs-lisp :tangle yes
-  (use-package hungry-delete
+  (use-package! hungry-delete
     :defer
 	:config
 	(global-hungry-delete-mode))
@@ -409,19 +409,19 @@ Force emacs to hide leading stars, from [[https://github.com/evanrelf/dotfiles/b
 (add-hook 'org-mode-hook 'wc-mode)
 
 
- (defun flyspell-ignore-tex ()
-	(interactive)
-	(set (make-variable-buffer-local 'ispell-parser) 'tex))
+(defun flyspell-ignore-tex ()
+  (interactive)
+  (set (make-variable-buffer-local 'ispell-parser) 'tex))
 (add-hook 'org-mode-hook (lambda () (setq ispell-parser 'tex)))
 (add-hook 'org-mode-hook 'flyspell-ignore-tex)
 
 
 
-(use-package org-ref
-	:after org
-	:init
-	(setq org-ref-completion-library 'org-ref-ivy-cite
-		  org-ref-default-bibliography '("~/bibtex/rlr-bib/rlr.bib")))
+(use-package! org-ref
+  :after org
+  :init
+  (setq org-ref-completion-library 'org-ref-ivy-cite
+	org-ref-default-bibliography '("~/bibtex/rlr-bib/rlr.bib")))
 #+end_src
 
 Return adds new heading or list item. From [[https://github.com/aaronjensen/emacs-orgonomic][Aaron Jensen]]
@@ -685,21 +685,20 @@ only adds KEYS to it."
 Use Ivy-bibtex for reference completions.
 
 #+begin_src emacs-lisp :tangle yes
-(use-package ivy-bibtex
-	;; :bind ("s-4" . ivy-bibtex)
-	:after (ivy)
-	:config
-	(setq bibtex-completion-bibliography '("~/bibtex/rlr-bib/rlr.bib"))
-	(setq reftex-default-bibliography '("~/bibtex/rlr-bib/rlr.bib"))
-	(setq bibtex-completion-pdf-field "File")
-	(setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
-	(setq bibtex-completion-format-citation-functions
-		  '((org-mode      . bibtex-completion-format-citation-orgref)
-			(latex-mode    . bibtex-completion-format-citation-cite)
-			;; (markdown-mode    . bibtex-completion-format-citation-cite)
-			(markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
-			(default       . bibtex-completion-format-citation-default))))
-
+(use-package! ivy-bibtex
+  ;; :bind ("s-4" . ivy-bibtex)
+  :after (ivy)
+  :config
+  (setq bibtex-completion-bibliography '("~/bibtex/rlr-bib/rlr.bib"))
+  (setq reftex-default-bibliography '("~/bibtex/rlr-bib/rlr.bib"))
+  (setq bibtex-completion-pdf-field "File")
+  (setq ivy-bibtex-default-action 'ivy-bibtex-insert-citation)
+  (setq bibtex-completion-format-citation-functions
+	'((org-mode      . bibtex-completion-format-citation-orgref)
+	  (latex-mode    . bibtex-completion-format-citation-cite)
+	  ;; (markdown-mode    . bibtex-completion-format-citation-cite)
+	  (markdown-mode . bibtex-completion-format-citation-pandoc-citeproc)
+	  (default       . bibtex-completion-format-citation-default))))
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
@@ -728,7 +727,7 @@ Use Ivy-bibtex for reference completions.
 #+begin_src emacs-lisp :tangle yes
   (global-unset-key (kbd "s-m"))
 
-  (use-package major-mode-hydra
+  (use-package! major-mode-hydra
     :defer
     :init
 	:bind
@@ -803,14 +802,15 @@ Key-chords
 #+begin_src emacs-lisp :tangle yes
 
 
-  (use-package key-chord
-  :init
-  (key-chord-mode 1)
-:config
-	(key-chord-define evil-normal-state-map "kj" 'doom/escape)
-	(key-chord-define evil-normal-state-map "jk" 'doom/escape)
-  (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
-  (key-chord-define evil-insert-state-map "jk" 'evil-normal-state))
+  (use-package! key-chord
+    :init
+    (key-chord-mode 1)
+    :config
+    ;; (key-chord-define evil-normal-state-map "kj" 'doom/escape)
+    ;;       (key-chord-define evil-normal-state-map "jk" 'doom/escape)
+    ;; (key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+    ;; (key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+    )
 #+end_src
 
 #+begin_src emacs-lisp :tangle yes
